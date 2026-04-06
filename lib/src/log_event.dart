@@ -20,4 +20,18 @@ class LogEvent {
     this.error,
     this.stackTrace,
   }) : time = time ?? clock.now();
+
+  Map<String, dynamic> toJson() {
+    var stackTrace = this.stackTrace;
+    if (level >= Level.warning) {
+      stackTrace = StackTrace.current;
+    }
+    return {
+      'level': level.name,
+      'message': message,
+      'time': time.millisecondsSinceEpoch,
+      'error': error?.toString(),
+      'stackTrace': stackTrace?.toString(),
+    };
+  }
 }
